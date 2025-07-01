@@ -46,6 +46,10 @@ local.properties
 
 # STS (Spring Tool Suite)
 .springBeans
+.classpath
+.project
+.settings
+target/
 
 # Code Recommenders
 .recommenders/
@@ -119,8 +123,5 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-.classpath
-.project
-.settings
 
 # End of https://www.toptal.com/developers/gitignore/api/java,eclipse,windows
