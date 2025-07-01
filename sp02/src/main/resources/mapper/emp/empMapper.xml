@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yedam.app.emp.mapper.EmpMapper">
+<!-- 내가 연결되는 인터페이스가 무엇인지 정보를 가지는 것: namespace -->
+
+<!-- interface의 메서드를 통해 실행할 쿼리 정의. -->
+	<select id="selectAll" resultType="EmpVO">
+		SELECT employee_id 
+		       , last_name 
+		       , email
+		       , hire_date 
+		       , job_id 
+		       , salary 
+		FROM   employees
+		ORDER BY employee_id	
+	</select>
+	<!-- #{}안에 들어가는 건 parameterType에 명시한 값에서 사용 -->
+	<select id="selectInfo" parameterType="EmpVO" resultType="EmpVO">
+		SELECT employee_id 
+		       , last_name 
+		       , email
+		       , hire_date 
+		       , job_id 
+		       , salary 
+		FROM   employees
+		WHERE  employee_id = #{employeeId}
+	</select>
+	
+	<!-- selectKey는 insert, update에만 사용할 수 있는 서브 태그. insert, update에 사용할 수 있는 값(보통 PK)을 가져옴. 보조 성격의 SELECT문을 집어넣을 때 사용.
+	selectKey의 실행한 결과는 parameterType 안에서 어떤 property에 어느 타입으로 넣을지 결정됨. 아래는 EmpVO(parameterType) 중에서도 employeeId에 담음.  
+	order: 이 쿼리문을 실행할 때 selectKey에 있는 쿼리문을 언제 동작할지 설정. BEFORE = 메인 쿼리 이전 AFTER = 메인 쿼리 이후... insert하고 그 값을 가져오는 경우 사용. -->
+	<insert id="insertInfo" parameterType="EmpVO">
+	<selectKey keyProperty="employeeId" resultType="Integer" order="BEFORE">
+	  SELECT NVL(MAX(employee_id), 100) + 1
+      FROM   employees
+	</selectKey>
+	  INSERT INTO employees ( 
+	                          employee_id 
+	                          , last_name 
+	                          , email
+	                          , hire_date 
+	                          , job_id
+	                          <if test="salary >= 1">
+	                          , salary
+	                          </if> 
+	                        )
+	  VALUES (
+	           #{employeeId} 
+	           , #{lastName} 
+	           , #{email}
+	           , sysdate
+	           , #{jobId}
+	          <if test="salary >= 1">
+	           , #{salary}
+	          </if> 
+	         )
+	</insert>
+	<!-- salary는 체크 제약조건 때문에 0이라는 초기값을 가질 수가 없음 -->
+	
+</mapper>
