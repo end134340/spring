@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- JavaBaseContext.xml -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- base-package = 하위 패키지까지 전부 스캔하겠다는 것 -->
+    <context:component-scan base-package="com.yedam.app.di" />
+    <!-- SonySpeaker나 SamsungTV가 같은 패키지 내(com.yedam.app.di.java)에 없기 때문에 상위에서 검색을 함. -->
+
+</beans>

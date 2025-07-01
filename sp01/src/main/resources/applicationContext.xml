@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- bean definitions here -->
+	<!-- spring이 관리하는 대상을 지정. -->
+	<bean class="com.yedam.app.ioc.Student">
+		<!-- bean을 생성하기 위해 기본이 되는 건 클래스 정보. 클래스 이름만 들고 와서는 안되고 패키지+이름을 들고와야함. -->
+		<!-- bean = singleton -->
+		<property name="ssn" value="123456789" />
+		<property name="name" value="Kang" />
+		<property name="school" value="Hankook" />
+		<!-- property: setter를 호출하는데, setName을 쓰는 게 아니라 필드명을 적으면 찾아감. -->
+	</bean>
+
+	<!-- XML 방식의 DI -->
+	<bean id="speaker" class="com.yedam.app.di.SonySpeaker" />
+	<!-- 단일로 사용하는 게 아니라 다른데서 호출하는 형태라면 id라는 형태로 이름을 지정하는 게 좋음. (id = unique함) -->
+	<!-- 1) 생성자 Injection -->
+	<!-- <bean class="com.yedam.app.di.SamsungTV"> -->
+		<!-- 필드로 사용할 걸 "먼저" 선언하여 등록하고 그 안에 선언해줌 -->
+		<!-- constructor-arg = 생성자 호출. ref(reference) -->
+		<!-- <constructor-arg ref="speaker" /> -->
+	<!-- </bean> -->
+
+	<!-- 2) Setter Injection -->
+	<bean class="com.yedam.app.di.SamsungTV">
+	     <!-- property를 건드림. -->
+		<property name="speaker" ref="speaker" />
+	</bean>
+</beans>
