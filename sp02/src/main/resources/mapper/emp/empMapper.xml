@@ -57,4 +57,19 @@
 	</insert>
 	<!-- salary는 체크 제약조건 때문에 0이라는 초기값을 가질 수가 없음 -->
 	
+	<!-- 업데이트. 파라미터가 두 가지?로 넘어올 때에는 parameterType을 생략. -->
+	<update id="updateInfo">
+	  UPDATE employees 
+	    SET  last_name = #{info.lastName}
+	         , email     = #{info.email}
+	         , salary    = #{info.salary}
+	  WHERE  employee_id = #{id}
+	</update>
+	
+	<!-- 기본 타입이 파라미터로 넘어오는 경우 변수명은 상관 없음 (값이 중요) -->
+	<delete id="deleteInfo" parameterType="int">
+	  DELETE FROM employees
+	  WHERE  employee_id = #{eid}
+	</delete>
+	
 </mapper>

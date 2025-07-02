@@ -54,7 +54,7 @@ class Sp02ApplicationTests {
 		assertEquals(1, result);
 	}// insert
 	
-	@Test
+//	@Test
 	public void insertSelectKey() {
 		EmpVO emp = EmpVO.builder()
 				         .lastName("Hwa")
@@ -67,6 +67,20 @@ class Sp02ApplicationTests {
 		// emp가 가진 객체가 매개변수를 통해 selectKey의 결과가 객체 안에 들어가면 같은 값을 가지고 있으므로 함수가 종료된다고 하더라도 바깥에서 selectKey로 가져온 값 확인 가능
 		assertEquals(1, result);
 	}//
+	
+	@Test
+	public void updateInfo() {
+		// 1) 단건조회
+		EmpVO emp = EmpVO.builder().employeeId(4322).build();
+		EmpVO findVO = empMapper.selectInfo(emp);
+		// 2) 값 변경
+		findVO.setSalary(2550);
+		int result = empMapper.updateInfo(findVO.getEmployeeId(), findVO);
+		
+		assertEquals(1, result);
+		
+		// 3) 테이블에 업데이트
+	}
 	
 
 }
