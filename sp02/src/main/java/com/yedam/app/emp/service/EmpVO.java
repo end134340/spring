@@ -2,6 +2,8 @@ package com.yedam.app.emp.service;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,6 +20,7 @@ public class EmpVO {
 	// primary key(not null)에 대해서는 객체를 통해 설정. wrap class. . . 화면에서 값이 안 넘어올 때 기본값은 대응할 수 없기 때문에. 참조 타입은 null값을 가질 수 있음.
 	private String lastName;
 	private String email;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date hireDate; // import시 sql.Date가 아니라 util.Date 선택.
 	private String jobId;
 	private double salary; // salary가 실수값을 가지기 때문에 double
