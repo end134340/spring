@@ -43,8 +43,7 @@ public class EmpServiceImpl implements EmpService {
 	public Map<String, Object> modifyInfo(EmpVO empVO) {
 		Map<String, Object> map = new HashMap<>();
 		// String : key 역할을 할 수 있도록 세팅
-		// Object : 모든 클래스의 최상위 클래스. 이렇게 선언해서 value로 받을 수 있는 클래스에 제한이 없음. boolean도 VO도
-		// 담을 수 있음.
+		// Object : 모든 클래스의 최상위 클래스. 이렇게 선언해서 value로 받을 수 있는 클래스에 제한이 없음. boolean도 VO도 담을 수 있음.
 		boolean isSuccessed = false;
 
 		int result = empMapper.updateInfo(empVO.getEmployeeId(), empVO);

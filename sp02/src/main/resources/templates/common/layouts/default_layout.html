@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<title></title>
+<!--/* fragment 표현식 ~{} - insert: 자식으로 넣는거 replace: 그 위치에 넣는거?*/-->
+<!--/*prefix, suffix 빼고 파일 경로 :: 부르려는 fragment*/-->
+<th:block th:replace="~{common/configs/default_config :: BoorstrapConfig}"></th:block>
+<th:block th:replace="~{common/configs/default_config :: jQueryConfig}"></th:block>
+<th:block th:replace="~{common/configs/default_config :: ContextPathConfig}"></th:block>
+</head>
+<body>
+  <header th:insert="~{common/fragments/default_header :: HeaderFrag}"></header>
+  <main>
+  <!--/*block태그를 이용해 어떤 fragment가 들어올 거라는 위치를 지정.*/-->
+    <th:block layout:fragment="Content"></th:block>
+  </main>
+  
+</body>
+</html>

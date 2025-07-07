@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+      layout:decorate="~{common/layouts/default_layout}"
+      layout:fragment="Content">
+
+<body>
+	<div class="container">
+		<h3>사원 정보 수정</h3>
+		<form name="updateForm" th:object="${emp}">
+		<!--/* thymeleaf의 object: form태그에 컨트롤러에서 넘긴 객체를 매핑? 바인딩?시킬 때 사용하는 속성 = field속성을 사용할 수 있음. 
+		=> object로 등록되어 있는 field에 대해 객체 표현식*{}을 사용해 다이렉트로 호출. => name과 value속성이 자동으로 들어감... id가 없으면 id까지 자동 완성해줌.
+		field속성을 사용하고 @DateTimeFormat을 사용하는 경우 날짜 포맷을 자동으로 변경해서 넘김(java의 속성이기 때문) -> dates.format안써도됨.*/-->
+			<div>
+				<label for="eid">사원번호</label>
+				<input type="text" id="eid" class="form-control" th:field="*{employeeId}" readonly>
+			</div>
+			<div>
+				<label for="ename">이름</label>
+				<input type="text" id="ename" class="form-control" th:field="*{lastName}">
+			</div>
+			<div>
+				<label for="email">이메일</label>
+				<input type="email" id="email" class="form-control" th:field="*{email}">
+			</div>
+			<div>
+				<label for="hDate">입사일</label>
+				<input type="date" id="hDate" class="form-control" th:field="*{hireDate}">
+			</div>
+			<div>
+				<label for="job">업무</label>
+				<input type="text" id="job" class="form-control" th:field="*{jobId}">
+			</div>
+			<div>
+				<label for="sal">급여</label>
+				<input type="number" class="form-control" id="sal" step="0.01" min="0" th:field="*{salary}">
+			</div>
+			<div>
+				<button type="button" id="updateBtn" class="btn btn-primary">저장</button>
+				<button type="button" class="btn btn-secondary" th:onclick="|location.href='@{/empList}'|">목록</button>
+			</div>
+		</form>
+	</div>
+
+	<script>
+		$('#updateBtn').on('click', updateAjax);
+
+		function updateAjax(event){
+			// 1) 서버에 보낼 데이터 가져오기
+			let dataObj = getFormData();
+
+			// 2) AJAX
+			$.ajax(``, {
+				type: 'POST', // HTTP METHOD
+				contentType: 'application/json', 
+				data: JSON.stringify(dataObj),
+			})
+			.done(result => { // 돌아온 데이터 파싱해서 받음
+				console.log(result);
+			})
+			.fail(err => console.error(err));
+		}
+
+		function getFormData(){
+			let formAry = $(updateForm).serializeArray(); //form태그의 정보만 넘겨주면 내부에 어떤 종류의 데이터가 몇 개가 있건 일괄 반환하는 메소드가 존재.
+			//javascript에서는 new FormData(formName) 으로 할 수 있음
+			// <input name="lastName" value="Hong"> => { name: "lastName", value: "Hong"} = input 태그 하나를 객체로 바꿔줌.
+			//                                      => 이걸 { "lastName": "Hong" } 의 형태로 보내야 함. name과 value가 통신할 때 사용하는 실제 키는 될 수 없음.
+			let formObj = {};
+			$(formAry).each((idx, tag) => {
+				formObj[tag.name] = tag.value; //해당 객체의 필드값을 동적으로 부여. 값은 태그의 값으로 부여.
+			})
+			console.log(formObj);
+			return formObj;
+		}
+	</script>
+</body>
+</html>

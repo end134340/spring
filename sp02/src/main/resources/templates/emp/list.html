@@ -1,11 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title></title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
-</head>
+<html xmlns:th="https://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+      layout:decorate="~{common/layouts/default_layout}"
+      layout:fragment="Content">
 <body>
 	<div class="container text-center">
 		<h3>전체 사원조회</h3>
@@ -21,7 +18,11 @@
 			</thead>
 			<tbody>
 				<th:block th:each=" info, status : ${emps}">
-					<tr>
+					<tr >
+					<!--/* <tr th:onclick="|location.href='@{/empInfo(employeeId=${info.employeeId})}'|"> */-->
+					<!--/*location.href='empInfo?employeeId= 가 thymeleaf에서는 단순 문자열이기 때문에 템플릿 리터럴 || 사용.
+					@{}링크 표현식을 사용할 때에는 ${}이 제대로 해석되지 않아서, 이걸 동작시키기 위해서는 ? 뒤의 것을 ()안에 넣어야 동작.
+					쿼리스트링 방식으로 두 쌍 이상을 보낼 때에는 ,로 구분. ex) @{/empInfo(employeeId=${info.employeeId}, lastName=${info.lastName})}*/-->
 						<td>[[ ${status.count} ]]</td>
 						<td>[[ ${info.employeeId} ]]</td>
 						<td>[[ ${info.lastName} ]]</td>
@@ -33,5 +34,17 @@
 			</tbody>
 		</table>
 	</div>
+
+	<script>
+	const context = $('meta[name="ctxPath"]').attr('value'); //원래 value가 없는데 content로 가져오면 오류가 나는데 value는 공백으로 처리되어서? 
+	
+		//thymeleaf에서 권장하는 방식(onclick 안에서 javascript문법을 사용하지 않는? 그리고 ajax로 동작시킬 때에는 javascript문법을 사용하는데 javascript에서는 thymeleaf문법을 사용하기 어려우니까?)
+		$('tbody > tr').on('click', function(event){
+			let trTag = event.currentTarget;
+			let eid = $(trTag).children().eq(1).text();
+			let url = `${context}/empInfo?employeeId=${eid}`;
+			location.href=url;
+		})
+	</script>
 </body>
 </html>

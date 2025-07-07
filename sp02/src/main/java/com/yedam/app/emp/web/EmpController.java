@@ -42,7 +42,7 @@ public class EmpController {
 		// emp가 붙는 이유는 각 페이지를 용도별로 활용하기 위해 폴더 개념?으로? emp를 집어넣음.
 	}
 
-	// 단건 조회: GET => queryString
+	// 단건 조회: GET => queryString | empInfo?key=value 포맷으로 전달해야함.
 	@GetMapping("empInfo")
 	public String empInfo(EmpVO empVO, Model model) {
 		EmpVO findVO = empService.findInfoById(empVO); // 여기서 요구하는 게 객체이기 때문에 커맨드 객체로 받음. 넘기는 게 하나면 RequestParam.
@@ -63,7 +63,7 @@ public class EmpController {
 		String url = null;
 		if (eid > -1) {
 			// 정상적으로 등록.
-			url = "redirect:empinfo?employeeId=" + eid; // 등록하면서 생성된 id값 넘겨줌
+			url = "redirect:empInfo?employeeId=" + eid; // 등록하면서 생성된 id값 넘겨줌
 		} else {
 			// 등록되지 않은 경우
 			url = "redirect:empList"; // 실행되지 않을 코드(에러가 나서 중단될거기 때문에...)
@@ -87,7 +87,7 @@ public class EmpController {
 	}
 	
 
-	// 삭제 - 처리: GET (중요한 정보가 딸려오는 경우에는 post로. 일반적인 경우에는 보통 get으로 함.) => QueryString
+	// 삭제 - 처리: GET (중요한 정보가 딸려오는 경우에는 post로. 일반적인 경우에는 보통 get으로 함.) => QueryString : empDelete?employeeId=value
 	@GetMapping("empDelete") 
 	public String empDelete(Integer employeeId) {
 		empService.removeInfo(employeeId);		

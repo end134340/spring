@@ -60,7 +60,7 @@ class Sp02ApplicationTests {
 				         .lastName("Hwa")
 				         .email("hwachang@nal.ssi")
 				         .jobId("ST_MAN")
-				         .salary(1200)
+//				         .salary(1200)
 				         .build();
 		int result = empMapper.insertInfo(emp);
 		System.out.println("사원번호: " + emp.getEmployeeId());
@@ -74,7 +74,7 @@ class Sp02ApplicationTests {
 		EmpVO emp = EmpVO.builder().employeeId(4322).build();
 		EmpVO findVO = empMapper.selectInfo(emp);
 		// 2) 값 변경
-		findVO.setSalary(2550);
+//		findVO.setSalary(2550);
 		int result = empMapper.updateInfo(findVO.getEmployeeId(), findVO);
 		
 		assertEquals(1, result);

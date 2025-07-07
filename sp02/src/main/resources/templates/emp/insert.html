@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+      layout:decorate="~{common/layouts/default_layout}"
+      layout:fragment="Content">
+<body>
+	<div class="container">
+		<h3>사원 정보 등록</h3>
+		<form name="insertForm" th:action="@{/empInsert}" class="form-control" method="post">
+		<!--/*메뉴처럼 위치가 명확하다면 절대경로 사용*/-->
+			<div>
+				<label for="ename">이름</label>
+                <input type="text" id="ename" class="form-control" name="lastName">
+			</div>
+			<div>
+				<label for="email">이메일</label>
+                <input type="email" id="email" class="form-control" name="email">
+			</div>
+			<div>
+				<label for="hDate">입사일</label>
+                <input type="date" id="hDate" class="form-control" name="hireDate">
+			</div>
+			<div>
+				<label for="job">업무</label>
+                <input type="text" id="job" class="form-control" name="jobId">
+			</div>
+			<div>
+				<label for="sal">급여</label>
+                <input type="number" class="form-control" id="sal" step="0.01" min="0" name="salary">
+			</div>
+			<div>
+				<button type="submit" class="btn btn-primary">저장</button>
+				<button type="button" class="btn btn-secondary" th:onclick="|location.href='@{/empList}'|">목록</button>
+			</div>
+		</form>
+	</div>
+	<script>
+	  $(insertForm).on('submit', vaildationCheck);
+    console.log(insertForm);
+		function vaildationCheck(event){
+			//submit 이벤트 정지
+			event.preventDefault();
+
+			// 속성은 null값을 가지지 않기 때문에 비교할 때 ''(공백)으로 비교해야함.
+
+			//이름 (insertForm의 하위태그 중 name속성이 lastName인거)
+			let nameTag = $('form[name="insertForm"] [name="lastName"]');
+			if(nameTag.val() == ''){
+				nameTag.focus();
+				alert('이름은 필수값입니다.');
+				return;
+			}
+
+			//이메일
+			let emailTag = $(insertForm).find('[name="email"]');  //find: 하위 요소를 검색하는 메소드 중 하나 
+			if(emailTag.val() == ''){
+				emailTag.focus();
+				alert('이메일은 필수값입니다.');
+				return;
+			}
+
+			//업무
+			let jobTag = $('form[name="insertForm"] *').filter('[name="jobId"]'); //filter: 지금 검색한 대상에 대해 선택자를 이용해 다시 한 번 조건을 거는 것
+			if(jobTag.val() == ''){
+				jobTag.focus();
+				alert('업무는 필수값입니다.');
+				return;
+			}
+
+			insertForm.submit();
+		}
+	</script>
+</body>
+</html>

@@ -23,6 +23,6 @@ public class EmpVO {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date hireDate; // import시 sql.Date가 아니라 util.Date 선택.
 	private String jobId;
-	private double salary; // salary가 실수값을 가지기 때문에 double
+	private Double salary; // salary가 실수값을 가지기 때문에 double
 	
 } //
